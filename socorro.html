@@ -6,132 +6,208 @@
     <title>Calculadora de IMC</title>
     
     <style>
-        /* Aplica estilos para todo o corpo (background) da página */
+        /* O asterisco aplica as regras a TODOS os elementos da página (Reset) */
+        * {
+            margin: 0;         /* Remove as margens padrão do navegador */
+            padding: 0;        /* Remove os espaçamentos internos padrão */
+            box-sizing: border-box; /* Garante que padding e bordas não aumentem o tamanho do elemento */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Define uma fonte moderna */
+        }
+
+        /* Estilização do fundo da página inteira */
         body {
-            /* Define a fonte do texto como Arial ou outra sem serifa padrão */
-            font-family: Arial, sans-serif;
-            /* Cria um espaçamento externo de 50 pixels nas bordas da tela */
-            margin: 50px;
-            /* Cria um espaçamento interno de 20 pixels */
-            padding: 20px;
-            /* Limita a largura máxima do conteúdo em 400 pixels */
-            max-width: 400px;
-            /* Define uma cor de fundo cinza bem claro */
-            background-color: #f4f4f9;
-        } /* Fecha o estilo do body */
+            background: linear-gradient(135deg, #e0eafc, #cfdef3); /* Cria um fundo degradê suave */
+            display: flex;           /* Ativa o modelo flexbox para posicionamento */
+            justify-content: center; /* Centraliza o conteúdo horizontalmente */
+            align-items: center;     /* Centraliza o conteúdo verticalmente */
+            min-height: 100vh;       /* Garante que o fundo ocupe pelo menos 100% da altura da tela */
+            color: #333;             /* Define a cor padrão do texto como um cinza escuro */
+        }
 
-        /* Aplica estilos para os blocos que envolvem os campos de texto */
-        .campo {
-            /* Cria uma margem de 15 pixels abaixo de cada campo para separá-los */
-            margin-bottom: 15px;
-        } /* Fecha o estilo da classe .campo */
+        /* Estilização da caixa (card) da calculadora */
+        .container {
+            background-color: #ffffff; /* Fundo totalmente branco para o card */
+            padding: 2.5rem;           /* Espaçamento interno generoso para respirar o layout */
+            border-radius: 15px;       /* Arredonda os cantos do card */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra suave para dar profundidade */
+            width: 100%;               /* Faz o card ocupar a largura total disponível... */
+            max-width: 400px;          /* ...mas limita o tamanho máximo em 400 pixels */
+        }
 
-        /* Aplica estilos para os textos das etiquetas (labels) */
+        /* Estilização do título principal */
+        h1 {
+            text-align: center;   /* Centraliza o texto do título */
+            color: #4a5568;       /* Cor cinza azulada elegante */
+            margin-bottom: 1.5rem; /* Afasta o título dos campos de entrada abaixo */
+            font-size: 1.8rem;    /* Define o tamanho do texto */
+        }
+
+        /* Espaçamento entre cada bloco de input (peso e altura) */
+        .input-group {
+            margin-bottom: 1.2rem; /* Cria um espaço abaixo de cada campo */
+        }
+
+        /* Estilização dos textos das etiquetas (Peso / Altura) */
         label {
-            /* Faz o label se comportar como um bloco, empurrando o input para baixo */
-            display: block;
-            /* Cria uma margem de 5 pixels abaixo do texto do label */
-            margin-bottom: 5px;
-            /* Deixa o texto em negrito */
-            font-weight: bold;
-        } /* Fecha o estilo do label */
+            display: block;        /* Faz a etiqueta ocupar a linha toda, jogando o input para baixo */
+            margin-bottom: 0.5rem; /* Afasta a etiqueta do seu respectivo input */
+            color: #718096;        /* Cor cinza mais clara */
+            font-weight: 600;      /* Deixa a fonte ligeiramente em negrito */
+            font-size: 0.9rem;     /* Tamanho de fonte um pouco menor para dar hierarquia */
+        }
 
-        /* Aplica estilos para as caixas de entrada de texto/números (inputs) */
+        /* Estilização das caixas de entrada de dados */
         input {
-            /* Faz a caixa ocupar 100% da largura disponível do seu container */
-            width: 100%;
-            /* Cria um espaçamento interno de 8 pixels para o texto não colar nas bordas */
-            padding: 8px;
-            /* Garante que o padding não aumente o tamanho total de 100% da largura */
-            box-sizing: border-box;
-        } /* Fecha o estilo do input */
+            width: 100%;          /* Faz o input ocupar toda a largura do container */
+            padding: 0.75rem;     /* Espaçamento interno para o texto não ficar colado nas bordas */
+            border: 2px solid #e2e8f0; /* Cria uma borda fina e cinza clara */
+            border-radius: 8px;   /* Arredonda os cantos do input */
+            font-size: 1rem;      /* Define o tamanho do texto digitado */
+            transition: all 0.3s ease; /* Faz as transições de efeito ocorrerem de forma suave */
+            outline: none;        /* Remove a borda padrão preta que o navegador coloca ao clicar */
+        }
 
-        /* Aplica estilos para o botão de clique */
+        /* Efeito visual quando o usuário clica para digitar no input */
+        input:focus {
+            border-color: #667eea; /* Altera a cor da borda para azul */
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); /* Cria uma aura brilhante ao redor do input */
+        }
+
+        /* Estilização do botão de calcular */
         button {
-            /* Faz o botão ocupar 100% da largura disponível */
-            width: 100%;
-            /* Cria um espaçamento interno de 10 pixels em cima e embaixo */
-            padding: 10px;
-            /* Define a cor de fundo do botão como azul */
-            background-color: #007BFF;
-            /* Define a cor do texto do botão como branca */
-            color: white;
-            /* Remove as bordas padrão que vêm no botão */
-            border: none;
-            /* Transforma o cursor do mouse em uma "mãozinha" ao passar pelo botão */
-            cursor: pointer;
-            /* Define o tamanho da fonte do botão para 16 pixels */
-            font-size: 16px;
-        } /* Fecha o estilo do button */
+            width: 100%;          /* Botão ocupa a largura total do card */
+            padding: 0.75rem;     /* Espaçamento interno para deixar o botão robusto */
+            background: linear-gradient(135deg, #667eea, #764ba2); /* Degradê do azul para o roxo */
+            color: white;         /* Texto do botão em branco */
+            border: none;         /* Remove a borda padrão */
+            border-radius: 8px;   /* Arredonda os cantos do botão */
+            font-size: 1rem;      /* Tamanho do texto */
+            font-weight: bold;    /* Texto em negrito */
+            cursor: pointer;      /* Transforma a seta do mouse na "mãozinha" de clique */
+            transition: transform 0.2s, opacity 0.2s; /* Suaviza os efeitos de clique e passagem de mouse */
+            margin-top: 0.5rem;   /* Dá um espaço acima do botão */
+        }
 
-        /* Aplica estilos específicos para quando o mouse passar por cima do botão */
+        /* Efeito de passar o mouse por cima do botão */
         button:hover {
-            /* Escurece a cor de fundo do botão para um azul mais escuro */
-            background-color: #0056b3;
-        } /* Fecha o estilo de button:hover */
+            opacity: 0.9;         /* Deixa o botão levemente transparente (efeito de acender) */
+        }
 
-        /* Aplica estilos para a área onde o resultado será mostrado */
-        #resultado {
-            /* Cria uma margem de 20 pixels acima do resultado para separá-lo do botão */
-            margin-top: 20px;
-            /* Define o tamanho da fonte do resultado para 18 pixels */
-            font-size: 18px;
-            /* Deixa o texto do resultado em negrito */
-            font-weight: bold;
-        } /* Fecha o estilo do id #resultado */
-    </style> </head> <body>
+        /* Efeito de clique no botão */
+        button:active {
+            transform: scale(0.98); /* Encolhe o botão de leve, simulando um clique físico */
+        }
 
-    <h2>Calculadora de IMC</h2>
+        /* Estilização da caixa que exibirá o resultado */
+        .result-container {
+            margin-top: 1.5rem;   /* Afasta o resultado do botão */
+            padding: 1rem;        /* Espaçamento interno do bloco de resultado */
+            border-radius: 8px;   /* Arredonda as bordas da caixa de resultado */
+            text-align: center;   /* Centraliza o texto do resultado */
+            display: none;        /* Deixa oculto por padrão (só aparece após o cálculo) */
+            animation: fadeIn 0.5s ease; /* Aplica uma animação de surgimento gradual */
+        }
 
-    <div class="campo">
-        <label for="peso">Peso (kg):</label>
-        <input type="number" id="peso" step="0.1" placeholder="Ex: 70.5">
-    </div> <div class="campo">
-        <label for="altura">Altura (m):</label>
-        <input type="number" id="altura" step="0.01" placeholder="Ex: 1.75">
-    </div> <button onclick="calcularIMC()">Calcular IMC</button>
+        /* Estilização do número do IMC */
+        .result-value {
+            font-size: 1.5rem;    /* Texto grande para o número se destacar */
+            font-weight: bold;    /* Número em negrito */
+            margin-bottom: 0.25rem; /* Pequeno espaço antes do texto explicativo */
+        }
 
-    <div id="resultado"></div>
+        /* Estilização do texto da categoria (ex: Peso Normal) */
+        .result-text {
+            font-size: 1.1rem;    /* Texto médio */
+            font-weight: 600;     /* Texto semi-negrito */
+        }
+
+        /* Classes CSS dinâmicas aplicadas via JavaScript dependendo do resultado: */
+        .normal { background-color: #c6f6d5; color: #22543d; } /* Verde para IMC ideal */
+        .alerta { background-color: #feebc8; color: #744210; } /* Amarelo/Laranja para Atenção */
+        .perigo { background-color: #fed7d7; color: #742a2a; } /* Vermelho para Obesidade */
+
+        /* Criação da animação de surgimento suave (Fade In) */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); } /* Começa invisível e 10px acima */
+            to { opacity: 1; transform: translateY(0); }       /* Termina visível na posição correta */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Calculadora de IMC</h1>
+        
+        <div class="input-group">
+            <label for="weight">Peso (kg)</label>
+            <input type="number" id="weight" placeholder="Ex: 75.5" step="0.1" required>
+        </div>
+
+        <div class="input-group">
+            <label for="height">Altura (m)</label>
+            <input type="number" id="height" placeholder="Ex: 1.75" step="0.01" required>
+        </div>
+
+        <button onclick="calculateIMC()">Calcular</button>
+
+        <div id="resultBox" class="result-container">
+            <div id="imcValue" class="result-value">---</div>
+            <div id="imcText" class="result-text">---</div>
+        </div>
+    </div>
 
     <script>
-        // Declara a função que realiza o cálculo do IMC
-        function calcularIMC() {
-            // Captura o valor do input de id 'peso' e o converte para número decimal (Float)
-            const peso = parseFloat(document.getElementById('peso').value);
-            // Captura o valor do input de id 'altura' e o converte para número decimal (Float)
-            const altura = parseFloat(document.getElementById('altura').value);
-            // Captura a referência da div onde o resultado será inserido na tela
-            const resultadoDiv = document.getElementById('resultado');
-
-            // Verifica se os valores são inválidos, vazios, menores ou iguais a zero
-            if (!peso || !altura || peso <= 0 || altura <= 0) {
-                // Altera o conteúdo da div de resultado com uma mensagem de erro em vermelho
-                resultadoDiv.innerHTML = "<span style='color: red;'>Por favor, insira valores válidos.</span>";
-                // Interrompe a execução da função imediatamente caso caia no erro
-                return;
-            } // Fecha o bloco do 'if' de validação
-
-            // Realiza o cálculo matemático do IMC (peso dividido por altura vezes altura)
-            const imc = peso / (altura * altura);
+        // Função responsável por fazer a mágica do cálculo
+        function calculateIMC() {
+            // Captura o valor digitado no campo Peso e transforma em número decimal
+            const weight = parseFloat(document.getElementById('weight').value);
+            // Captura o valor digitado no campo Altura e transforma em número decimal
+            const height = parseFloat(document.getElementById('height').value);
             
-            // Cria uma variável de texto vazia para armazenar a classificação do peso
-            let classificacao = "";
+            // Captura as referências dos elementos HTML do resultado para podermos alterá-los
+            const resultBox = document.getElementById('resultBox');
+            const imcValue = document.getElementById('imcValue');
+            const imcText = document.getElementById('imcText');
 
-            // Verifica se o IMC calculado é menor do que 18.5
+            // Validação: se os campos estiverem vazios, forem zero ou negativos, exibe um alerta
+            if (!weight || !height || weight <= 0 || height <= 0) {
+                alert('Por favor, insira valores válidos para peso e altura.');
+                return; // Para a execução da função aqui mesmo
+            }
+
+            // Realiza a fórmula matemática oficial do IMC: Peso dividido por Altura ao quadrado
+            // O .toFixed(1) arredonda o resultado final para apenas 1 casa decimal
+            const imc = (weight / (height * height)).toFixed(1);
+            
+            // Cria variáveis vazias que vão armazenar o texto da categoria e a cor do alerta
+            let classification = '';
+            let className = '';
+
+            // Estrutura condicional para avaliar a faixa do IMC do usuário
             if (imc < 18.5) {
-                // Define o texto da classificação como abaixo do peso
-                classificacao = "Abaixo do peso";
-            // Caso não seja menor que 18.5, verifica se ele está entre 18.5 e menor que 25
+                classification = 'Abaixo do peso'; // Define o texto descritivo
+                className = 'alerta';               // Define a classe CSS laranja
             } else if (imc >= 18.5 && imc < 25) {
-                // Define o texto da classificação como peso normal
-                classificacao = "Peso normal";
-            // Caso não atenda nenhuma das condições anteriores, assume que é maior ou igual a 25
+                classification = 'Peso normal';     // Peso ideal
+                className = 'normal';               // Define a classe CSS verde
+            } else if (imc >= 25 && imc < 30) {
+                classification = 'Sobrepeso';       // Início de excesso de peso
+                className = 'alerta';               // Define a classe CSS laranja
             } else {
-                // Define o texto da classificação como acima do peso
-                classificacao = "Acima do peso";
-            } // Fecha a estrutura condicional do IMC
+                classification = 'Obesidade';       // IMC acima de 30
+                className = 'perigo';               // Define a classe CSS vermelha
+            }
 
-            // Insere o resultado final dentro da div, quebrando linha (<br>) e fixando o IMC em 2 casas decimais (.toFixed(2))
-            resultadoDiv.innerHTML = `Seu IMC é: ${imc.toFixed(2)}<br>Classificação: ${classificacao}`;
-        } // Fecha a função calcularIMC
-    </script> </body> </html> ```
+            // Insere o valor calculado do IMC dentro da div correspondente
+            imcValue.textContent = `Seu IMC é ${imc}`;
+            // Insere o texto da classificação médica dentro da div correspondente
+            imcText.textContent = classification;
+            
+            // Altera a classe da caixa de resultado para aplicar a cor correspondente (verde, laranja ou vermelho)
+            resultBox.className = 'result-container ' + className;
+            // Altera o estilo para 'block', fazendo a caixa de resultado finalmente aparecer na tela
+            resultBox.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
