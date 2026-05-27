@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de IMC</title>
+    
+    <style>
+        /* Aplica estilos para todo o corpo (background) da página */
+        body {
+            /* Define a fonte do texto como Arial ou outra sem serifa padrão */
+            font-family: Arial, sans-serif;
+            /* Cria um espaçamento externo de 50 pixels nas bordas da tela */
+            margin: 50px;
+            /* Cria um espaçamento interno de 20 pixels */
+            padding: 20px;
+            /* Limita a largura máxima do conteúdo em 400 pixels */
+            max-width: 400px;
+            /* Define uma cor de fundo cinza bem claro */
+            background-color: #f4f4f9;
+        } /* Fecha o estilo do body */
+
+        /* Aplica estilos para os blocos que envolvem os campos de texto */
+        .campo {
+            /* Cria uma margem de 15 pixels abaixo de cada campo para separá-los */
+            margin-bottom: 15px;
+        } /* Fecha o estilo da classe .campo */
+
+        /* Aplica estilos para os textos das etiquetas (labels) */
+        label {
+            /* Faz o label se comportar como um bloco, empurrando o input para baixo */
+            display: block;
+            /* Cria uma margem de 5 pixels abaixo do texto do label */
+            margin-bottom: 5px;
+            /* Deixa o texto em negrito */
+            font-weight: bold;
+        } /* Fecha o estilo do label */
+
+        /* Aplica estilos para as caixas de entrada de texto/números (inputs) */
+        input {
+            /* Faz a caixa ocupar 100% da largura disponível do seu container */
+            width: 100%;
+            /* Cria um espaçamento interno de 8 pixels para o texto não colar nas bordas */
+            padding: 8px;
+            /* Garante que o padding não aumente o tamanho total de 100% da largura */
+            box-sizing: border-box;
+        } /* Fecha o estilo do input */
+
+        /* Aplica estilos para o botão de clique */
+        button {
+            /* Faz o botão ocupar 100% da largura disponível */
+            width: 100%;
+            /* Cria um espaçamento interno de 10 pixels em cima e embaixo */
+            padding: 10px;
+            /* Define a cor de fundo do botão como azul */
+            background-color: #007BFF;
+            /* Define a cor do texto do botão como branca */
+            color: white;
+            /* Remove as bordas padrão que vêm no botão */
+            border: none;
+            /* Transforma o cursor do mouse em uma "mãozinha" ao passar pelo botão */
+            cursor: pointer;
+            /* Define o tamanho da fonte do botão para 16 pixels */
+            font-size: 16px;
+        } /* Fecha o estilo do button */
+
+        /* Aplica estilos específicos para quando o mouse passar por cima do botão */
+        button:hover {
+            /* Escurece a cor de fundo do botão para um azul mais escuro */
+            background-color: #0056b3;
+        } /* Fecha o estilo de button:hover */
+
+        /* Aplica estilos para a área onde o resultado será mostrado */
+        #resultado {
+            /* Cria uma margem de 20 pixels acima do resultado para separá-lo do botão */
+            margin-top: 20px;
+            /* Define o tamanho da fonte do resultado para 18 pixels */
+            font-size: 18px;
+            /* Deixa o texto do resultado em negrito */
+            font-weight: bold;
+        } /* Fecha o estilo do id #resultado */
+    </style> </head> <body>
+
+    <h2>Calculadora de IMC</h2>
+
+    <div class="campo">
+        <label for="peso">Peso (kg):</label>
+        <input type="number" id="peso" step="0.1" placeholder="Ex: 70.5">
+    </div> <div class="campo">
+        <label for="altura">Altura (m):</label>
+        <input type="number" id="altura" step="0.01" placeholder="Ex: 1.75">
+    </div> <button onclick="calcularIMC()">Calcular IMC</button>
+
+    <div id="resultado"></div>
+
+    <script>
+        // Declara a função que realiza o cálculo do IMC
+        function calcularIMC() {
+            // Captura o valor do input de id 'peso' e o converte para número decimal (Float)
+            const peso = parseFloat(document.getElementById('peso').value);
+            // Captura o valor do input de id 'altura' e o converte para número decimal (Float)
+            const altura = parseFloat(document.getElementById('altura').value);
+            // Captura a referência da div onde o resultado será inserido na tela
+            const resultadoDiv = document.getElementById('resultado');
+
+            // Verifica se os valores são inválidos, vazios, menores ou iguais a zero
+            if (!peso || !altura || peso <= 0 || altura <= 0) {
+                // Altera o conteúdo da div de resultado com uma mensagem de erro em vermelho
+                resultadoDiv.innerHTML = "<span style='color: red;'>Por favor, insira valores válidos.</span>";
+                // Interrompe a execução da função imediatamente caso caia no erro
+                return;
+            } // Fecha o bloco do 'if' de validação
+
+            // Realiza o cálculo matemático do IMC (peso dividido por altura vezes altura)
+            const imc = peso / (altura * altura);
+            
+            // Cria uma variável de texto vazia para armazenar a classificação do peso
+            let classificacao = "";
+
+            // Verifica se o IMC calculado é menor do que 18.5
+            if (imc < 18.5) {
+                // Define o texto da classificação como abaixo do peso
+                classificacao = "Abaixo do peso";
+            // Caso não seja menor que 18.5, verifica se ele está entre 18.5 e menor que 25
+            } else if (imc >= 18.5 && imc < 25) {
+                // Define o texto da classificação como peso normal
+                classificacao = "Peso normal";
+            // Caso não atenda nenhuma das condições anteriores, assume que é maior ou igual a 25
+            } else {
+                // Define o texto da classificação como acima do peso
+                classificacao = "Acima do peso";
+            } // Fecha a estrutura condicional do IMC
+
+            // Insere o resultado final dentro da div, quebrando linha (<br>) e fixando o IMC em 2 casas decimais (.toFixed(2))
+            resultadoDiv.innerHTML = `Seu IMC é: ${imc.toFixed(2)}<br>Classificação: ${classificacao}`;
+        } // Fecha a função calcularIMC
+    </script> </body> </html> ```
