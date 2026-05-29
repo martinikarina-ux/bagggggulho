@@ -1,213 +1,394 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de IMC</title>
-    
+    <title>brat imc</title>
+
     <style>
-        /* O asterisco aplica as regras a TODOS os elementos da página (Reset) */
+        /* 🧹 O asterisco (*) seleciona absolutamente TODOS os elementos para limpar os padrões */
         * {
-            margin: 0;         /* Remove as margens padrão do navegador */
-            padding: 0;        /* Remove os espaçamentos internos padrão */
-            box-sizing: border-box; /* Garante que padding e bordas não aumentem o tamanho do elemento */
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Define uma fonte moderna */
+            margin: 0;
+            /* 📐 Zera a margem externa padrão de todos os elementos */
+            padding: 0;
+            /* 📏 Zera o espaçamento interno padrão de todos os elementos */
+            box-sizing: border-box;
+            /* 📦 Faz com que bordas e paddings não aumentem o tamanho total do bloco */
+            /* 🔠 Define as fontes do projeto puxando o visual mais seco e condensado do álbum */
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            text-transform: lowercase;
+            /* 🔤 Força todo o texto a ficar em letras minúsculas (puro estilo BRAT) */
         }
 
-        /* Estilização do fundo da página inteira */
+        /* 🖤 Estilização do corpo (tela inteira do navegador) */
         body {
-            background: linear-gradient(135deg, #e0eafc, #cfdef3); /* Cria um fundo degradê suave */
-            display: flex;           /* Ativa o modelo flexbox para posicionamento */
-            justify-content: center; /* Centraliza o conteúdo horizontalmente */
-            align-items: center;     /* Centraliza o conteúdo verticalmente */
-            min-height: 100vh;       /* Garante que o fundo ocupe pelo menos 100% da altura da tela */
-            color: #333;             /* Define a cor padrão do texto como um cinza escuro */
+            background-color: #000000;
+            /* 🕶️ Define o fundo como totalmente preto */
+            color: #21fd0d;
+            /* 🍏 Define a cor do texto com o verde limão ácido icônico */
+            display: flex;
+            /* 🧩 Ativa o sistema Flexbox para alinhar elementos facilmente */
+            justify-content: center;
+            /* ↔️ Centraliza o bloco da calculadora na horizontal */
+            align-items: center;
+            /* ↕️ Centraliza o bloco da calculadora na vertical */
+            min-height: 100vh;
+            /* 📏 Garante que o fundo ocupe 100% da altura da tela visível */
+            padding: 2rem;
+            /* 🔲 Adiciona um espaçamento de segurança nas bordas da tela */
         }
 
-        /* Estilização da caixa (card) da calculadora */
-        .container {
-            background-color: #ffffff; /* Fundo totalmente branco para o card */
-            padding: 2.5rem;           /* Espaçamento interno generoso para respirar o layout */
-            border-radius: 15px;       /* Arredonda os cantos do card */
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra suave para dar profundidade */
-            width: 100%;               /* Faz o card ocupar a largura total disponível... */
-            max-width: 400px;          /* ...mas limita o tamanho máximo em 400 pixels */
+        /* 📦 Caixa principal que guarda a calculadora (minimalista e sem firulas) */
+        .brat-box {
+            width: 100%;
+            /* 🌐 Ocupa toda a largura disponível em telas pequenas */
+            max-width: 500px;
+            /* 🛑 Limita o tamanho máximo em 500px para não esticar em monitores grandes */
+            text-align: center;
+            /* 🎯 Centraliza todos os textos que estiverem dentro dela */
         }
 
-        /* Estilização do título principal */
+        /* 🎤 Estilização do título principal inspirado na capa do álbum da Charli XCX */
         h1 {
-            text-align: center;   /* Centraliza o texto do título */
-            color: #4a5568;       /* Cor cinza azulada elegante */
-            margin-bottom: 1.5rem; /* Afasta o título dos campos de entrada abaixo */
-            font-size: 1.8rem;    /* Define o tamanho do texto */
+            font-size: 4.5rem;
+            /* 📢 Deixa o texto gigante e impactante */
+            font-weight: bold;
+            /* 💪 Deixa a fonte bem grossa e marcante */
+            letter-spacing: -2px;
+            /* 🗜️ Espreme as letras para ficarem coladas, imitando o álbum */
+            margin-bottom: 3rem;
+            /* 📐 Cria um espaço grande entre o título e os campos abaixo */
+            /* 🟢 Cria uma sombra verde borrada por trás do texto, dando um aspecto digital e ácido */
+            text-shadow: 0 0 5px rgba(14, 206, 0, 0.5);
         }
 
-        /* Espaçamento entre cada bloco de input (peso e altura) */
+        /* 🧱 Bloco que agrupa a legenda e a caixa de digitação */
         .input-group {
-            margin-bottom: 1.2rem; /* Cria um espaço abaixo de cada campo */
+            margin-bottom: 2rem;
+            /* ↕️ Afasta um bloco de input do outro */
+            text-align: left;
+            /* ⬅️ Alinha os textos dos inputs para a esquerda */
         }
 
-        /* Estilização dos textos das etiquetas (Peso / Altura) */
+        /* 🏷️ Estilização das legendas dos campos */
         label {
-            display: block;        /* Faz a etiqueta ocupar a linha toda, jogando o input para baixo */
-            margin-bottom: 0.5rem; /* Afasta a etiqueta do seu respectivo input */
-            color: #718096;        /* Cor cinza mais clara */
-            font-weight: 600;      /* Deixa a fonte ligeiramente em negrito */
-            font-size: 0.9rem;     /* Tamanho de fonte um pouco menor para dar hierarquia */
+            display: block;
+            /* 🛠️ Transforma em bloco para pular linha e ficar acima do input */
+            font-size: 1.2rem;
+            /* 📏 Define um tamanho de texto confortável */
+            margin-bottom: 0.5rem;
+            /* 📐 Dá um pequeno espaço entre a legenda e a caixa de texto */
+            font-weight: bold;
+            /* 🏋️ Deixa o texto da legenda em negrito */
         }
 
-        /* Estilização das caixas de entrada de dados */
+        /* ⌨️ Estilização das caixas onde o usuário digita os dados */
         input {
-            width: 100%;          /* Faz o input ocupar toda a largura do container */
-            padding: 0.75rem;     /* Espaçamento interno para o texto não ficar colado nas bordas */
-            border: 2px solid #e2e8f0; /* Cria uma borda fina e cinza clara */
-            border-radius: 8px;   /* Arredonda os cantos do input */
-            font-size: 1rem;      /* Define o tamanho do texto digitado */
-            transition: all 0.3s ease; /* Faz as transições de efeito ocorrerem de forma suave */
-            outline: none;        /* Remove a borda padrão preta que o navegador coloca ao clicar */
+            width: 100%;
+            /* 📐 Faz a caixa ocupar toda a largura do seu bloco pai */
+            padding: 1rem;
+            /* 🔲 Dá um espaço interno para o texto não ficar colado na borda */
+            background-color: #000000;
+            /* 🖤 Mantém o fundo da caixinha preto */
+            border: 2px solid #21fd0d;
+            /* 🟢 Cria uma borda sólida com o verde do BRAT */
+            color: #21fd0d;
+            /* ✍️ Define que o número digitado também será verde limão */
+            font-size: 1.5rem;
+            /* 🔍 Aumenta o tamanho dos números digitados */
+            outline: none;
+            /* 🚫 Remove aquela borda padrão chata que o navegador cria ao clicar */
         }
 
-        /* Efeito visual quando o usuário clica para digitar no input */
-        input:focus {
-            border-color: #667eea; /* Altera a cor da borda para azul */
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); /* Cria uma aura brilhante ao redor do input */
-        }
-
-        /* Estilização do botão de calcular */
+        /* ⚡ Botão principal de calcular (estilo bloco de contraste) */
         button {
-            width: 100%;          /* Botão ocupa a largura total do card */
-            padding: 0.75rem;     /* Espaçamento interno para deixar o botão robusto */
-            background: linear-gradient(135deg, #667eea, #764ba2); /* Degradê do azul para o roxo */
-            color: white;         /* Texto do botão em branco */
-            border: none;         /* Remove a borda padrão */
-            border-radius: 8px;   /* Arredonda os cantos do botão */
-            font-size: 1rem;      /* Tamanho do texto */
-            font-weight: bold;    /* Texto em negrito */
-            cursor: pointer;      /* Transforma a seta do mouse na "mãozinha" de clique */
-            transition: transform 0.2s, opacity 0.2s; /* Suaviza os efeitos de clique e passagem de mouse */
-            margin-top: 0.5rem;   /* Dá um espaço acima do botão */
+            width: 100%;
+            /* 📐 Faz o botão ocupar a largura total disponível */
+            padding: 1rem;
+            /* 🔲 Dá um bom espaçamento interno para o botão ficar alto */
+            background-color: #21fd0d;
+            /* 🟢 Inverte o padrão: fundo totalmente verde ácido */
+            color: #000000;
+            /* 🖤 Texto do botão em preto para dar contraste máximo */
+            border: none;
+            /* 🚫 Remove qualquer borda padrão do sistema */
+            font-size: 1.5rem;
+            /* 🔍 Deixa o texto do botão bem grande e visível */
+            font-weight: bold;
+            /* 💪 Destaca o texto em negrito */
+            cursor: pointer;
+            /* 🫵 Transforma a seta do mouse na mãozinha de clique */
+            margin-bottom: 2rem;
+            /* 📐 Cria um espaço abaixo do botão */
+            transition: opacity 0.1s;
+            /* ⏱️ Define uma transição de opacidade ultra rápida */
         }
 
-        /* Efeito de passar o mouse por cima do botão */
+        /* 🖱️ Efeito visual ao passar o mouse por cima do botão principal */
         button:hover {
-            opacity: 0.9;         /* Deixa o botão levemente transparente (efeito de acender) */
+            opacity: 0.8;
+            /* 🕶️ Deixa o botão ligeiramente transparente ao passar o mouse */
         }
 
-        /* Efeito de clique no botão */
-        button:active {
-            transform: scale(0.98); /* Encolhe o botão de leve, simulando um clique físico */
+        /* 🗑️ Estilização específica do botão de limpar o histórico */
+        .btn-clear {
+            background-color: transparent;
+            /* 🚫 Fundo invisível para não chamar tanta atenção */
+            border: 2px solid #21fd0d;
+            /* 🟢 Borda verde para manter a identidade */
+            color: #21fd0d;
+            /* 🟢 Texto em verde */
+            margin-top: 1rem;
+            /* 📐 Dá um espaço acima dele se separando da lista */
+            font-size: 1rem;
+            /* 📏 Tamanho menor e mais discreto */
+            padding: 0.5rem;
+            /* 🔲 Espaçamento interno reduzido */
         }
 
-        /* Estilização da caixa que exibirá o resultado */
+        /* 🖱️ Efeito visual ao passar o mouse no botão de limpar */
+        .btn-clear:hover {
+            background-color: #19c909;
+            /* 🟢 Muda o fundo para um verde um pouco mais escuro */
+            color: #000000;
+            /* 🖤 Altera a cor do texto para preto ao entrar em foco */
+        }
+
+        /* 📊 Caixa de exibição do resultado do IMC */
         .result-container {
-            margin-top: 1.5rem;   /* Afasta o resultado do botão */
-            padding: 1rem;        /* Espaçamento interno do bloco de resultado */
-            border-radius: 8px;   /* Arredonda as bordas da caixa de resultado */
-            text-align: center;   /* Centraliza o texto do resultado */
-            display: none;        /* Deixa oculto por padrão (só aparece após o cálculo) */
-            animation: fadeIn 0.5s ease; /* Aplica uma animação de surgimento gradual */
+            border: 2px dashed #21fd0d;
+            /* ✂️ Cria uma borda pontilhada estilosa em verde */
+            padding: 2rem;
+            /* 🔲 Espaçamento interno generoso para os dados respirarem */
+            margin-top: 2rem;
+            /* 📐 Afasta a caixa de resultado dos elementos de cima */
+            display: none;
+            /* 🚫 Começa escondida por padrão, só aparece após o clique */
         }
 
-        /* Estilização do número do IMC */
+        /* 🔢 Estilização do número do IMC calculado */
         .result-value {
-            font-size: 1.5rem;    /* Texto grande para o número se destacar */
-            font-weight: bold;    /* Número em negrito */
-            margin-bottom: 0.25rem; /* Pequeno espaço antes do texto explicativo */
+            font-size: 2.5rem;
+            /* 📢 Número bem gigante para chamar a atenção */
+            font-weight: bold;
+            /* 💪 Em negrito destacado */
+            margin-bottom: 0.5rem;
+            /* 📐 Espaço entre o número e o texto do status */
         }
 
-        /* Estilização do texto da categoria (ex: Peso Normal) */
+        /* 📑 Estilização do texto do status (ex: "peso normal") */
         .result-text {
-            font-size: 1.1rem;    /* Texto médio */
-            font-weight: 600;     /* Texto semi-negrito */
+            font-size: 1.5rem;
+            /* 📏 Tamanho médio-grande */
+            margin-bottom: 1rem;
+            /* 📐 Espaço antes do conselho com emoji */
         }
 
-        /* Classes CSS dinâmicas aplicadas via JavaScript dependendo do resultado: */
-        .normal { background-color: #c6f6d5; color: #22543d; } /* Verde para IMC ideal */
-        .alerta { background-color: #feebc8; color: #744210; } /* Amarelo/Laranja para Atenção */
-        .perigo { background-color: #fed7d7; color: #742a2a; } /* Vermelho para Obesidade */
+        /* 💡 Estilização da frase de conselho de saúde */
+        .result-advice {
+            font-size: 1.2rem;
+            /* 📏 Tamanho de leitura confortável */
+            font-style: italic;
+            /* ✍️ Texto em itálico para dar um charme diferenciado */
+        }
 
-        /* Criação da animação de surgimento suave (Fade In) */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); } /* Começa invisível e 10px acima */
-            to { opacity: 1; transform: translateY(0); }       /* Termina visível na posição correta */
+        /* 📜 Seção que organiza o histórico de resultados guardados */
+        .history-container {
+            margin-top: 3rem;
+            /* 📐 Afasta consideravelmente o histórico da área de cálculo */
+            text-align: left;
+            /* ⬅️ Alinha os itens salvos para a esquerda */
+            border-top: 1px solid #21fd0d;
+            /* ➖ Cria uma linha fina verde para separar as seções */
+            padding-top: 1.5rem;
+            /* 📐 Espaço interno logo abaixo da linha separadora */
+        }
+
+        /* 📌 Título da seção de histórico */
+        .history-title {
+            font-size: 1.3rem;
+            /* 📏 Tamanho em destaque */
+            margin-bottom: 1rem;
+            /* 📐 Espaço entre o título e a lista de itens */
+            font-weight: bold;
+            /* 💪 Título em negrito */
+        }
+
+        /* 📋 Estilização da lista (ul) que vai segurar os itens do histórico */
+        .history-list {
+            list-style: none;
+            /* 🚫 Remove aquelas bolinhas padrão de listas */
+        }
+
+        /* 🧾 Estilização de cada linha de registro do histórico (li) */
+        .history-item {
+            font-size: 1rem;
+            /* 📏 Tamanho de texto padrão */
+            padding: 0.5rem 0;
+            /* 📐 Espaçamento em cima e embaixo de cada item */
+            border-bottom: 1px dashed rgba(138, 206, 0, 0.3);
+            /* ✂️ Linha pontilhada sutil entre um item e outro */
+            display: flex;
+            /* 🧩 Flexbox para separar a data do status */
+            justify-content: space-between;
+            /* ↔️ Joga a data para a esquerda e o status para a direita */
         }
     </style>
 </head>
+
 <body>
 
-    <div class="container">
-        <h1>Calculadora de IMC</h1>
-        
+    <div class="brat-box">
+        <h1>brat imc</h1>
+
         <div class="input-group">
-            <label for="weight">Peso (kg)</label>
-            <input type="number" id="weight" placeholder="Ex: 75.5" step="0.1" required>
+            <label for="weight">insira seu peso (kg):</label>
+            <input type="number" id="weight" step="0.1" placeholder="00.0">
         </div>
 
         <div class="input-group">
-            <label for="height">Altura (m)</label>
-            <input type="number" id="height" placeholder="Ex: 1.75" step="0.01" required>
+            <label for="height">insira sua altura (m):</label>
+            <input type="number" id="height" step="0.01" placeholder="0.00">
         </div>
 
-        <button onclick="calculateIMC()">Calcular</button>
+        <button onclick="calculateIMC()">calcular imc</button>
 
         <div id="resultBox" class="result-container">
-            <div id="imcValue" class="result-value">---</div>
-            <div id="imcText" class="result-text">---</div>
+            <div id="imcValue" class="result-value"></div>
+            <div id="imcText" class="result-text"></div>
+            <div id="imcAdvice" class="result-advice"></div>
+        </div>
+
+        <div class="history-container">
+            <div class="history-title">histórico de picos:</div>
+            <ul id="historyList" class="history-list"></ul>
+            <button class="btn-clear" onclick="clearHistory()">limpar histórico</button>
         </div>
     </div>
 
     <script>
-        // Função responsável por fazer a mágica do cálculo
+        // 📥 Evento que escuta quando a página carregou 100% para carregar o histórico salvo
+        document.addEventListener("DOMContentLoaded", loadHistory);
+
+        // 🧮 Função principal disparada ao clicar no botão "calcular imc"
         function calculateIMC() {
-            // Captura o valor digitado no campo Peso e transforma em número decimal
+            // 📥 Captura o valor do peso digitado e converte para número flutuante (decimal)
             const weight = parseFloat(document.getElementById('weight').value);
-            // Captura o valor digitado no campo Altura e transforma em número decimal
+            // 📥 Captura o valor da altura digitada e converte para número flutuante (decimal)
             const height = parseFloat(document.getElementById('height').value);
-            
-            // Captura as referências dos elementos HTML do resultado para podermos alterá-los
+
+            // 🎯 Guarda referências das caixas de texto do HTML para manipulação
             const resultBox = document.getElementById('resultBox');
             const imcValue = document.getElementById('imcValue');
             const imcText = document.getElementById('imcText');
+            const imcAdvice = document.getElementById('imcAdvice');
 
-            // Validação: se os campos estiverem vazios, forem zero ou negativos, exibe um alerta
+            // 🚫 Validação de segurança: confere se os campos estão em branco, zerados ou negativos
             if (!weight || !height || weight <= 0 || height <= 0) {
-                alert('Por favor, insira valores válidos para peso e altura.');
-                return; // Para a execução da função aqui mesmo
+                alert('insira valores reais, por favor.'); /* ⚠️ Emite um aviso na tela caso os dados estejam errados */
+                return; /* 🛑 Aborta a execução da função imediatamente */
             }
 
-            // Realiza a fórmula matemática oficial do IMC: Peso dividido por Altura ao quadrado
-            // O .toFixed(1) arredonda o resultado final para apenas 1 casa decimal
+            // 📐 Executa a fórmula matemática oficial: Peso dividido por (Altura vezes Altura)
+            // 🛠️ O .toFixed(1) arredonda o resultado final para mostrar apenas uma casa após a vírgula
             const imc = (weight / (height * height)).toFixed(1);
-            
-            // Cria variáveis vazias que vão armazenar o texto da categoria e a cor do alerta
-            let classification = '';
-            let className = '';
 
-            // Estrutura condicional para avaliar a faixa do IMC do usuário
+            // 📝 Cria variáveis vazias para preencher de acordo com a situação de saúde do usuário
+            let classification = '';
+            let advice = '';
+
+            // 🚦 Estrutura de decisões lógicas baseada nas tabelas oficiais de IMC
             if (imc < 18.5) {
-                classification = 'Abaixo do peso'; // Define o texto descritivo
-                className = 'alerta';               // Define a classe CSS laranja
+                classification = 'abaixo do peso';
+                advice = '🥗 foque na sua saúde e busque uma nutrição fortalecida.';
             } else if (imc >= 18.5 && imc < 25) {
-                classification = 'Peso normal';     // Peso ideal
-                className = 'normal';               // Define a classe CSS verde
+                classification = 'peso normal';
+                advice = '🔋 tudo certo. mantenha o ritmo e cuide do corpo.';
             } else if (imc >= 25 && imc < 30) {
-                classification = 'Sobrepeso';       // Início de excesso de peso
-                className = 'alerta';               // Define a classe CSS laranja
+                classification = 'sobrepeso';
+                advice = '🏃 de olho na rotina. movimentar-se faz bem para o coração.';
             } else {
-                classification = 'Obesidade';       // IMC acima de 30
-                className = 'perigo';               // Define a classe CSS vermelha
+                classification = 'obesidade';
+                advice = '🩺 atenção redobrada. consulte profissionais para te apoiar.';
             }
 
-            // Insere o valor calculado do IMC dentro da div correspondente
-            imcValue.textContent = `Seu IMC é ${imc}`;
-            // Insere o texto da classificação médica dentro da div correspondente
-            imcText.textContent = classification;
-            
-            // Altera a classe da caixa de resultado para aplicar a cor correspondente (verde, laranja ou vermelho)
-            resultBox.className = 'result-container ' + className;
-            // Altera o estilo para 'block', fazendo a caixa de resultado finalmente aparecer na tela
+            // ✍️ Escreve dinamicamente o número do IMC calculado na tela
+            imcValue.textContent = `imc: ${imc}`;
+            // ✍️ Escreve o diagnóstico do status do usuário
+            imcText.textContent = `status: ${classification}`;
+            // ✍️ Escreve a frase personalizada com o emoji correspondente
+            imcAdvice.textContent = advice;
+
+            // 👁️ Altera a propriedade de display para 'block', tornando a caixa pontilhada visível na tela
             resultBox.style.display = 'block';
+
+            // 💾 Envia o valor do IMC e o status para serem arquivados na função de histórico
+            saveToHistory(imc, classification);
+        }
+
+        // 💾 Função responsável por salvar as consultas dentro da memória local do navegador (localStorage)
+        function saveToHistory(imc, classification) {
+            // 📥 Tenta ler o histórico existente. Se não achar nada, inicializa um array (lista) vazio []
+            let history = JSON.parse(localStorage.getItem('brat_imc_history')) || [];
+
+            // 📦 Cria um objeto estruturado contendo as informações da medição atual
+            const newItem = {
+                imc: imc, // 🔢 O valor numérico do IMC
+                status: classification, // 📑 A classificação textual
+                date: new Date().toLocaleDateString('pt-BR') // 📅 A data de hoje formatada no padrão brasileiro
+            };
+
+            // 🔀 Insere o novo item na primeiríssima posição da lista (para o mais recente ficar no topo)
+            history.unshift(newItem);
+
+            // 🛑 Regra de corte: se a lista passar de 5 registros, apaga o mais antigo (.pop() remove o último)
+            if (history.length > 5) history.pop();
+
+            // 💾 Converte a lista atualizada para texto puro (JSON) e guarda na caixinha de memórias do navegador
+            localStorage.setItem('brat_imc_history', JSON.stringify(history));
+
+            // 🔄 Repassa a lista atualizada para que seja desenhada na tela
+            renderHistory(history);
+        }
+
+        // 📂 Função que recupera os dados salvos quando a página inicia ou é recarregada
+        function loadHistory() {
+            // 📥 Puxa os dados em formato de texto e transforma de volta em array de objetos do JS
+            let history = JSON.parse(localStorage.getItem('brat_imc_history')) || [];
+            // 🔄 Manda desenhar a lista recuperada
+            renderHistory(history);
+        }
+
+        // 🛠️ Função puramente visual responsável por transformar os dados em elementos HTML visíveis
+        function renderHistory(history) {
+            const listElement = document.getElementById('historyList'); // 🎯 Captura a tag <ul> da lista
+            listElement.innerHTML = ''; // 🧼 Limpa tudo o que estiver escrito dentro dela antes de redesenhar
+
+            // 📭 Validação: Caso não tenha nenhum registro no histórico do navegador
+            if (history.length === 0) {
+                // ✍️ Escreve uma mensagem de lista vazia de forma estilizada
+                listElement.innerHTML = '<li style="font-style: italic; opacity: 0.6;">vazio...</li>';
+                return; // 🛑 Para a execução aqui já que não há itens para rodar no loop
+            }
+
+            // 🔄 Loop (repetição) forEach: roda uma vez para cada registro que estiver dentro do histórico
+            history.forEach(item => {
+                const li = document.createElement('li'); // 🛠️ Cria uma nova tag <li> dinamicamente na memória
+                li.className = 'history-item'; // 🏷️ Adiciona a classe CSS correspondente para aplicar o design
+                // ✍️ Preenche a linha com a data, o número do IMC e a classificação dentro de tags span
+                li.innerHTML = `<span>${item.date} - imc: ${item.imc}</span> <span>[${item.status}]</span>`;
+                listElement.appendChild(li); // 📌 Fixa a linha criada de fato dentro da nossa lista <ul> no HTML
+            });
+        }
+
+        // 🗑️ Função acionada pelo botão de apagar os registros salvos
+        function clearHistory() {
+            localStorage.removeItem('brat_imc_history'); // 🧼 Deleta a chave de dados de histórico do armazenamento local
+            renderHistory([]); // 🔄 Atualiza a tela passando uma lista vazia para sumir com os dados antigos
+            document.getElementById('resultBox').style.display = 'none'; // 🕶️ Esconde a caixa de resultado atual para limpar o app
         }
     </script>
 </body>
+
 </html>
